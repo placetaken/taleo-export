@@ -1,0 +1,10 @@
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\bin\Debug\TaleoConsole.exe.config
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\bin\Debug\TaleoConsole.exe
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\bin\Debug\TaleoConsole.pdb
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\bin\Debug\TaleoConsole.xml
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\obj\Debug\TaleoConsole.Resources.resources
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\obj\Debug\TaleoConsole.vbproj.GenerateResource.Cache
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\obj\Debug\TaleoConsole.exe
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\obj\Debug\TaleoConsole.xml
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\obj\Debug\TaleoConsole.pdb

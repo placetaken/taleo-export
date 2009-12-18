@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:intf="urn:TBEDispatcherAPI" xmlns:impl="urn:TBEDispatcherAPI" targetNamespace="urn:TBEDispatcherAPI" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types />
+  <wsdl:message name="getURLRequest">
+    <wsdl:part name="orgCode" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getURLResponse">
+    <wsdl:part name="getURLReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:portType name="DispatcherAPI">
+    <wsdl:operation name="getURL" parameterOrder="orgCode">
+      <wsdl:input name="getURLRequest" message="impl:getURLRequest" />
+      <wsdl:output name="getURLResponse" message="impl:getURLResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="rpcrouterSoapBinding" type="impl:DispatcherAPI">
+    <wsdlsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="getURL">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getURLRequest">
+        <wsdlsoap:body use="encoded" namespace="urn:TBEDispatcherAPI" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output name="getURLResponse">
+        <wsdlsoap:body use="encoded" namespace="urn:TBEDispatcherAPI" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DispatcherAPIService">
+    <wsdl:port name="rpcrouter" binding="impl:rpcrouterSoapBinding">
+      <wsdlsoap:address location="https://tbe.taleo.net/MANAGER/dispatcher/servlet/rpcrouter" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
