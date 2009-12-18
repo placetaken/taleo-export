@@ -6,7 +6,27 @@ TaleoExport
 </name>
 </assembly>
 <members>
-<member name="M:TaleoConsole.net.taleo.tbe1.IWebAPIService.#ctor">
+<member name="M:TaleoConsole.net.taleo.tbe.DispatcherAPIService.#ctor">
+	<remarks/>
+</member><member name="E:TaleoConsole.net.taleo.tbe.DispatcherAPIService.getURLCompleted">
+	<remarks/>
+</member><member name="M:TaleoConsole.net.taleo.tbe.DispatcherAPIService.getURL(System.String)">
+	<remarks/>
+</member><member name="M:TaleoConsole.net.taleo.tbe.DispatcherAPIService.getURLAsync(System.String)">
+	<remarks/>
+</member><member name="M:TaleoConsole.net.taleo.tbe.DispatcherAPIService.getURLAsync(System.String,System.Object)">
+	<remarks/>
+</member><member name="M:TaleoConsole.net.taleo.tbe.DispatcherAPIService.CancelAsync(System.Object)">
+	<remarks/>
+</member><member name="T:TaleoConsole.net.taleo.tbe.DispatcherAPIService">
+	<remarks/>
+</member><member name="T:TaleoConsole.net.taleo.tbe.getURLCompletedEventHandler">
+	<remarks/>
+</member><member name="P:TaleoConsole.net.taleo.tbe.getURLCompletedEventArgs.Result">
+	<remarks/>
+</member><member name="T:TaleoConsole.net.taleo.tbe.getURLCompletedEventArgs">
+	<remarks/>
+</member><member name="M:TaleoConsole.net.taleo.tbe1.IWebAPIService.#ctor">
 	<remarks/>
 </member><member name="E:TaleoConsole.net.taleo.tbe1.IWebAPIService.createTaskCompleted">
 	<remarks/>
@@ -2083,26 +2103,6 @@ TaleoExport
 </member><member name="T:TaleoConsole.net.taleo.tbe1.upsertRollingEntityCompletedEventArgs">
 	<remarks/>
 </member><member name="T:TaleoConsole.net.taleo.tbe1.deleteRollingEntityCompletedEventHandler">
-	<remarks/>
-</member><member name="M:TaleoConsole.net.taleo.tbe.DispatcherAPIService.#ctor">
-	<remarks/>
-</member><member name="E:TaleoConsole.net.taleo.tbe.DispatcherAPIService.getURLCompleted">
-	<remarks/>
-</member><member name="M:TaleoConsole.net.taleo.tbe.DispatcherAPIService.getURL(System.String)">
-	<remarks/>
-</member><member name="M:TaleoConsole.net.taleo.tbe.DispatcherAPIService.getURLAsync(System.String)">
-	<remarks/>
-</member><member name="M:TaleoConsole.net.taleo.tbe.DispatcherAPIService.getURLAsync(System.String,System.Object)">
-	<remarks/>
-</member><member name="M:TaleoConsole.net.taleo.tbe.DispatcherAPIService.CancelAsync(System.Object)">
-	<remarks/>
-</member><member name="T:TaleoConsole.net.taleo.tbe.DispatcherAPIService">
-	<remarks/>
-</member><member name="T:TaleoConsole.net.taleo.tbe.getURLCompletedEventHandler">
-	<remarks/>
-</member><member name="P:TaleoConsole.net.taleo.tbe.getURLCompletedEventArgs.Result">
-	<remarks/>
-</member><member name="T:TaleoConsole.net.taleo.tbe.getURLCompletedEventArgs">
 	<remarks/>
 </member>
 </members>
