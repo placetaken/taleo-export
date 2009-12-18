@@ -205,7 +205,11 @@ Module Module1
         Dim OutPutFile As String = myDate.ToString("MMMddyyyy_HHmmssffff")
 
         Try
-            doc.Save(folderPath & "\" & "TaleoExport" & OutPutFile.ToString & ".xml")
+
+            If Not candidateCounter = 0 Then
+                doc.Save(folderPath & "\" & "TaleoExport" & OutPutFile.ToString & ".xml")
+            End If
+
             Console.WriteLine(candidateCounter.ToString & " Candidate(s) were exported")
         Catch ex As Exception
             'if this cannot be saved we have a serious problem
