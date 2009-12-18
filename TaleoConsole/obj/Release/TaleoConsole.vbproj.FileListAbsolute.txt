@@ -1,0 +1,12 @@
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\obj\Release\ResolveAssemblyReference.cache
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\obj\Release\TaleoConsole.Resources.resources
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\obj\Release\TaleoConsole.vbproj.GenerateResource.Cache
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\bin\Release\TaleoExport.exe.config
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\bin\Release\TaleoExport.exe
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\bin\Release\TaleoExport.XmlSerializers.dll
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\bin\Release\TaleoExport.pdb
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\bin\Release\TaleoExport.xml
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\obj\Release\TaleoExport.exe
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\obj\Release\TaleoExport.xml
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\obj\Release\TaleoExport.pdb
+C:\Documents and Settings\mellerbeck\My Documents\Visual Studio 2008\Projects\TaleoConsole\TaleoConsole\obj\Release\TaleoExport.XmlSerializers.dll

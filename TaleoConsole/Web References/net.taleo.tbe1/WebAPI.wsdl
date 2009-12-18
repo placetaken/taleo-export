@@ -1,0 +1,3382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:intf="urn:TBEWebAPI" xmlns:impl="urn:TBEWebAPI" targetNamespace="urn:TBEWebAPI" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:TBEWebAPI">
+      <xsd:import namespace="http://xml.apache.org/xml-soap" />
+      <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <xsd:complexType name="FlexFieldBean">
+        <xsd:sequence>
+          <xsd:element name="fieldName" nillable="true" type="xsd:string" />
+          <xsd:element name="valueBool" nillable="true" type="xsd:boolean" />
+          <xsd:element name="valueDate" nillable="true" type="xsd:dateTime" />
+          <xsd:element name="valueDbl" nillable="true" type="xsd:double" />
+          <xsd:element name="valueInt" nillable="true" type="xsd:int" />
+          <xsd:element name="valueLong" nillable="true" type="xsd:long" />
+          <xsd:element name="valueStr" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfFlexFieldBean">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="impl:FlexFieldBean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="EntityBean">
+        <xsd:sequence>
+          <xsd:element name="creationDate" nillable="true" type="xsd:dateTime" />
+          <xsd:element name="flexValues" nillable="true" type="impl:ArrayOfFlexFieldBean" />
+          <xsd:element name="id" type="xsd:long" />
+          <xsd:element name="lastUpdated" nillable="true" type="xsd:dateTime" />
+          <xsd:element name="status" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ParticipantBean">
+        <xsd:sequence>
+          <xsd:element name="endDate" nillable="true" type="xsd:dateTime" />
+          <xsd:element name="eventId" type="xsd:long" />
+          <xsd:element name="eventType" nillable="true" type="xsd:string" />
+          <xsd:element name="personId" type="xsd:long" />
+          <xsd:element name="personType" nillable="true" type="xsd:string" />
+          <xsd:element name="startDate" nillable="true" type="xsd:dateTime" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfParticipantBean">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="impl:ParticipantBean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="TaskBean">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="impl:EntityBean">
+            <xsd:sequence>
+              <xsd:element name="assignedTo" nillable="true" type="impl:ArrayOfParticipantBean" />
+              <xsd:element name="creator" nillable="true" type="xsd:string" />
+              <xsd:element name="description" nillable="true" type="xsd:string" />
+              <xsd:element name="dueDate" nillable="true" type="xsd:dateTime" />
+              <xsd:element name="entityId" type="xsd:long" />
+              <xsd:element name="entityType" nillable="true" type="xsd:string" />
+              <xsd:element name="priority" nillable="true" type="xsd:string" />
+              <xsd:element name="subject" nillable="true" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="WebServicesException">
+        <xsd:sequence>
+          <xsd:element name="message" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ReferenceBean">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="impl:EntityBean">
+            <xsd:sequence>
+              <xsd:element name="candidateId" type="xsd:long" />
+              <xsd:element name="comments" nillable="true" type="xsd:string" />
+              <xsd:element name="creator" nillable="true" type="xsd:string" />
+              <xsd:element name="employer" nillable="true" type="xsd:string" />
+              <xsd:element name="refEmail" nillable="true" type="xsd:string" />
+              <xsd:element name="refName" nillable="true" type="xsd:string" />
+              <xsd:element name="refPhone" nillable="true" type="xsd:string" />
+              <xsd:element name="refTitle" nillable="true" type="xsd:string" />
+              <xsd:element name="relToCandidate" nillable="true" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="CalendarEventBean">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="impl:EntityBean">
+            <xsd:sequence>
+              <xsd:element name="creator" nillable="true" type="xsd:string" />
+              <xsd:element name="description" nillable="true" type="xsd:string" />
+              <xsd:element name="duration" type="xsd:long" />
+              <xsd:element name="entityId" type="xsd:long" />
+              <xsd:element name="entityType" nillable="true" type="xsd:string" />
+              <xsd:element name="isPrivate" type="xsd:boolean" />
+              <xsd:element name="location" nillable="true" type="xsd:string" />
+              <xsd:element name="participants" nillable="true" type="impl:ArrayOfParticipantBean" />
+              <xsd:element name="startDate" nillable="true" type="xsd:dateTime" />
+              <xsd:element name="subject" nillable="true" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="SearchResultBean">
+        <xsd:sequence>
+          <xsd:element name="id" type="xsd:long" />
+          <xsd:element name="relevance" type="xsd:double" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfSearchResultBean">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="impl:SearchResultBean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="SearchResultArr">
+        <xsd:sequence>
+          <xsd:element name="array" nillable="true" type="impl:ArrayOfSearchResultBean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="AccountBean">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="impl:EntityBean">
+            <xsd:sequence>
+              <xsd:element name="address" nillable="true" type="xsd:string" />
+              <xsd:element name="city" nillable="true" type="xsd:string" />
+              <xsd:element name="country" nillable="true" type="xsd:string" />
+              <xsd:element name="description" nillable="true" type="xsd:string" />
+              <xsd:element name="fax" nillable="true" type="xsd:string" />
+              <xsd:element name="industry" nillable="true" type="xsd:string" />
+              <xsd:element name="name" nillable="true" type="xsd:string" />
+              <xsd:element name="parentAccountId" type="xsd:long" />
+              <xsd:element name="phone" nillable="true" type="xsd:string" />
+              <xsd:element name="state" nillable="true" type="xsd:string" />
+              <xsd:element name="type" nillable="true" type="xsd:string" />
+              <xsd:element name="webSite" nillable="true" type="xsd:string" />
+              <xsd:element name="zipCode" nillable="true" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOf_xsd_long">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="xsd:long" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="LongArr">
+        <xsd:sequence>
+          <xsd:element name="array" nillable="true" type="impl:ArrayOf_xsd_long" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="BackgroundCheckBean">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="impl:EntityBean">
+            <xsd:sequence>
+              <xsd:element name="candidateId" type="xsd:long" />
+              <xsd:element name="checkerEmail" nillable="true" type="xsd:string" />
+              <xsd:element name="checkerName" nillable="true" type="xsd:string" />
+              <xsd:element name="checkerPhone" nillable="true" type="xsd:string" />
+              <xsd:element name="comments" nillable="true" type="xsd:string" />
+              <xsd:element name="creator" nillable="true" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="CandidateBean">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="impl:EntityBean">
+            <xsd:sequence>
+              <xsd:element name="address" nillable="true" type="xsd:string" />
+              <xsd:element name="cellPhone" nillable="true" type="xsd:string" />
+              <xsd:element name="city" nillable="true" type="xsd:string" />
+              <xsd:element name="country" nillable="true" type="xsd:string" />
+              <xsd:element name="email" nillable="true" type="xsd:string" />
+              <xsd:element name="firstName" nillable="true" type="xsd:string" />
+              <xsd:element name="gender" nillable="true" type="xsd:string" />
+              <xsd:element name="hiredDate" nillable="true" type="xsd:dateTime" />
+              <xsd:element name="lastName" nillable="true" type="xsd:string" />
+              <xsd:element name="legalStatus" nillable="true" type="xsd:string" />
+              <xsd:element name="middleInitial" nillable="true" type="xsd:string" />
+              <xsd:element name="password" nillable="true" type="xsd:string" />
+              <xsd:element name="phone" nillable="true" type="xsd:string" />
+              <xsd:element name="race" nillable="true" type="xsd:string" />
+              <xsd:element name="rank" type="xsd:int" />
+              <xsd:element name="reasonRejected" nillable="true" type="xsd:string" />
+              <xsd:element name="referredBy" nillable="true" type="xsd:string" />
+              <xsd:element name="resumeFileName" nillable="true" type="xsd:string" />
+              <xsd:element name="source" nillable="true" type="xsd:string" />
+              <xsd:element name="startDate" nillable="true" type="xsd:dateTime" />
+              <xsd:element name="state" nillable="true" type="xsd:string" />
+              <xsd:element name="submittedBy" nillable="true" type="xsd:string" />
+              <xsd:element name="textResume" nillable="true" type="xsd:string" />
+              <xsd:element name="veteran" nillable="true" type="xsd:string" />
+              <xsd:element name="zipCode" nillable="true" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="ByteArr">
+        <xsd:sequence>
+          <xsd:element name="array" nillable="true" type="xsd:base64Binary" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ContactBean">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="impl:EntityBean">
+            <xsd:sequence>
+              <xsd:element name="accountId" type="xsd:long" />
+              <xsd:element name="address" nillable="true" type="xsd:string" />
+              <xsd:element name="assistantEmail" nillable="true" type="xsd:string" />
+              <xsd:element name="assistantName" nillable="true" type="xsd:string" />
+              <xsd:element name="assistantPhone" nillable="true" type="xsd:string" />
+              <xsd:element name="cellPhone" nillable="true" type="xsd:string" />
+              <xsd:element name="city" nillable="true" type="xsd:string" />
+              <xsd:element name="contactType" nillable="true" type="xsd:string" />
+              <xsd:element name="country" nillable="true" type="xsd:string" />
+              <xsd:element name="creator" nillable="true" type="xsd:string" />
+              <xsd:element name="department" nillable="true" type="xsd:string" />
+              <xsd:element name="description" nillable="true" type="xsd:string" />
+              <xsd:element name="email" nillable="true" type="xsd:string" />
+              <xsd:element name="fax" nillable="true" type="xsd:string" />
+              <xsd:element name="firstName" nillable="true" type="xsd:string" />
+              <xsd:element name="lastName" nillable="true" type="xsd:string" />
+              <xsd:element name="phone" nillable="true" type="xsd:string" />
+              <xsd:element name="reportsToId" type="xsd:long" />
+              <xsd:element name="state" nillable="true" type="xsd:string" />
+              <xsd:element name="title" nillable="true" type="xsd:string" />
+              <xsd:element name="zipCode" nillable="true" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="HistoryBean">
+        <xsd:sequence>
+          <xsd:element name="creationDate" nillable="true" type="xsd:dateTime" />
+          <xsd:element name="emailText" nillable="true" type="xsd:string" />
+          <xsd:element name="id" type="xsd:long" />
+          <xsd:element name="text" nillable="true" type="xsd:string" />
+          <xsd:element name="userName" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfHistoryBean">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="impl:HistoryBean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="HistoryBeanArr">
+        <xsd:sequence>
+          <xsd:element name="array" nillable="true" type="impl:ArrayOfHistoryBean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="InterviewBean">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="impl:EntityBean">
+            <xsd:sequence>
+              <xsd:element name="candidateId" type="xsd:long" />
+              <xsd:element name="comments" nillable="true" type="xsd:string" />
+              <xsd:element name="creator" nillable="true" type="xsd:string" />
+              <xsd:element name="interviewRoom" nillable="true" type="xsd:string" />
+              <xsd:element name="interviewType" nillable="true" type="xsd:string" />
+              <xsd:element name="participants" nillable="true" type="impl:ArrayOfParticipantBean" />
+              <xsd:element name="requisitionId" type="xsd:long" />
+              <xsd:element name="startDate" nillable="true" type="xsd:dateTime" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="OfferBean">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="impl:EntityBean">
+            <xsd:sequence>
+              <xsd:element name="candidateId" type="xsd:long" />
+              <xsd:element name="creator" nillable="true" type="xsd:string" />
+              <xsd:element name="employmentType" nillable="true" type="xsd:string" />
+              <xsd:element name="expirationDate" nillable="true" type="xsd:dateTime" />
+              <xsd:element name="manager" nillable="true" type="xsd:string" />
+              <xsd:element name="offerFileName" nillable="true" type="xsd:string" />
+              <xsd:element name="payRate" nillable="true" type="xsd:string" />
+              <xsd:element name="requisitionId" type="xsd:long" />
+              <xsd:element name="startDate" nillable="true" type="xsd:dateTime" />
+              <xsd:element name="stockOptions" nillable="true" type="xsd:string" />
+              <xsd:element name="title" nillable="true" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="RequisitionBean">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="impl:EntityBean">
+            <xsd:sequence>
+              <xsd:element name="city" nillable="true" type="xsd:string" />
+              <xsd:element name="description" nillable="true" type="xsd:string" />
+              <xsd:element name="duration" nillable="true" type="xsd:string" />
+              <xsd:element name="filledDate" nillable="true" type="xsd:dateTime" />
+              <xsd:element name="jobCategory" nillable="true" type="xsd:string" />
+              <xsd:element name="jobCode" nillable="true" type="xsd:string" />
+              <xsd:element name="location" nillable="true" type="xsd:string" />
+              <xsd:element name="numOpen" type="xsd:int" />
+              <xsd:element name="openedDate" nillable="true" type="xsd:dateTime" />
+              <xsd:element name="payRange" nillable="true" type="xsd:string" />
+              <xsd:element name="state" nillable="true" type="xsd:string" />
+              <xsd:element name="title" nillable="true" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="UserBean">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="impl:EntityBean">
+            <xsd:sequence>
+              <xsd:element name="cellPhone" nillable="true" type="xsd:string" />
+              <xsd:element name="email" nillable="true" type="xsd:string" />
+              <xsd:element name="fax" nillable="true" type="xsd:string" />
+              <xsd:element name="firstName" nillable="true" type="xsd:string" />
+              <xsd:element name="lastLogin" nillable="true" type="xsd:dateTime" />
+              <xsd:element name="lastName" nillable="true" type="xsd:string" />
+              <xsd:element name="localeCode" nillable="true" type="xsd:string" />
+              <xsd:element name="location" nillable="true" type="xsd:string" />
+              <xsd:element name="loginName" nillable="true" type="xsd:string" />
+              <xsd:element name="manager" nillable="true" type="xsd:string" />
+              <xsd:element name="middleInitial" nillable="true" type="xsd:string" />
+              <xsd:element name="phone" nillable="true" type="xsd:string" />
+              <xsd:element name="role" nillable="true" type="xsd:string" />
+              <xsd:element name="timeZoneId" nillable="true" type="xsd:string" />
+              <xsd:element name="title" nillable="true" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="ContactLogBean">
+        <xsd:sequence>
+          <xsd:element name="comments" nillable="true" type="xsd:string" />
+          <xsd:element name="contactDate" nillable="true" type="xsd:dateTime" />
+          <xsd:element name="creationDate" nillable="true" type="xsd:dateTime" />
+          <xsd:element name="creator" nillable="true" type="xsd:string" />
+          <xsd:element name="entityId" type="xsd:long" />
+          <xsd:element name="entityType" nillable="true" type="xsd:string" />
+          <xsd:element name="id" type="xsd:long" />
+          <xsd:element name="lastUpdated" nillable="true" type="xsd:dateTime" />
+          <xsd:element name="subject" nillable="true" type="xsd:string" />
+          <xsd:element name="typeNo" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CandidateInsertResultBean">
+        <xsd:sequence>
+          <xsd:element name="candidateId" type="xsd:long" />
+          <xsd:element name="dup" type="xsd:long" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="MetadataBean">
+        <xsd:sequence>
+          <xsd:element name="displayName" nillable="true" type="xsd:string" />
+          <xsd:element name="integrationName" nillable="true" type="xsd:string" />
+          <xsd:element name="isCustom" type="xsd:boolean" />
+          <xsd:element name="isReadOnly" type="xsd:boolean" />
+          <xsd:element name="isRequired" type="xsd:boolean" />
+          <xsd:element name="type" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfMetadataBean">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="impl:MetadataBean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="MetadataArr">
+        <xsd:sequence>
+          <xsd:element name="array" nillable="true" type="impl:ArrayOfMetadataBean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="LookupBean">
+        <xsd:sequence>
+          <xsd:element name="displayName" nillable="true" type="xsd:string" />
+          <xsd:element name="integrationCode" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfLookupBean">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="impl:LookupBean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="LookupArr">
+        <xsd:sequence>
+          <xsd:element name="array" nillable="true" type="impl:ArrayOfLookupBean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="AttachmentBean">
+        <xsd:sequence>
+          <xsd:element name="contentType" nillable="true" type="xsd:string" />
+          <xsd:element name="creationDate" nillable="true" type="xsd:dateTime" />
+          <xsd:element name="description" nillable="true" type="xsd:string" />
+          <xsd:element name="id" type="xsd:long" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfOfferBean">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="impl:OfferBean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfInterviewBean">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="impl:InterviewBean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfReferenceBean">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="impl:ReferenceBean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfAttachmentBean">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="impl:AttachmentBean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfRequisitionBean">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="impl:RequisitionBean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CandidateDetailsBean">
+        <xsd:sequence>
+          <xsd:element name="offerBeans" nillable="true" type="impl:ArrayOfOfferBean" />
+          <xsd:element name="historyBeans" nillable="true" type="impl:ArrayOfHistoryBean" />
+          <xsd:element name="interviewBeans" nillable="true" type="impl:ArrayOfInterviewBean" />
+          <xsd:element name="referenceBeans" nillable="true" type="impl:ArrayOfReferenceBean" />
+          <xsd:element name="attachmentBeans" nillable="true" type="impl:ArrayOfAttachmentBean" />
+          <xsd:element name="requisitionBeans" nillable="true" type="impl:ArrayOfRequisitionBean" />
+          <xsd:element name="candidateBean" nillable="true" type="impl:CandidateBean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="AddressEntityBean">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="impl:EntityBean">
+            <xsd:sequence>
+              <xsd:element name="city" nillable="true" type="xsd:string" />
+              <xsd:element name="address" nillable="true" type="xsd:string" />
+              <xsd:element name="zipCode" nillable="true" type="xsd:string" />
+              <xsd:element name="state" nillable="true" type="xsd:string" />
+              <xsd:element name="country" nillable="true" type="xsd:string" />
+              <xsd:element name="phone" nillable="true" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="EmployeeBean">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="impl:AddressEntityBean">
+            <xsd:sequence>
+              <xsd:element name="employeeNumber" nillable="true" type="xsd:string" />
+              <xsd:element name="email" nillable="true" type="xsd:string" />
+              <xsd:element name="firstName" nillable="true" type="xsd:string" />
+              <xsd:element name="middleInitial" nillable="true" type="xsd:string" />
+              <xsd:element name="lastName" nillable="true" type="xsd:string" />
+              <xsd:element name="cellPhone" nillable="true" type="xsd:string" />
+              <xsd:element name="title" nillable="true" type="xsd:string" />
+              <xsd:element name="hiredDate" nillable="true" type="xsd:dateTime" />
+              <xsd:element name="startDate" nillable="true" type="xsd:dateTime" />
+              <xsd:element name="race" nillable="true" type="xsd:string" />
+              <xsd:element name="gender" nillable="true" type="xsd:string" />
+              <xsd:element name="lockedFromEws" type="xsd:boolean" />
+              <xsd:element name="reviewManagerId" type="xsd:long" />
+              <xsd:element name="departmentId" type="xsd:long" />
+              <xsd:element name="hierarchyPath" nillable="true" type="xsd:string" />
+              <xsd:element name="managerId" type="xsd:long" />
+              <xsd:element name="locationId" type="xsd:long" />
+              <xsd:element name="ewsLogin" nillable="true" type="xsd:string" />
+              <xsd:element name="ewsPassword" nillable="true" type="xsd:string" />
+              <xsd:element name="jobTitle" nillable="true" type="xsd:string" />
+              <xsd:element name="jobCode" nillable="true" type="xsd:string" />
+              <xsd:element name="salaryGrade" nillable="true" type="xsd:string" />
+              <xsd:element name="salary" type="xsd:double" />
+              <xsd:element name="payFrequency" nillable="true" type="xsd:string" />
+              <xsd:element name="changePswdOnEwsLogin" type="xsd:boolean" />
+              <xsd:element name="additionalEntities" nillable="true" type="apachesoap:Map" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="WorkHistoryBean">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="impl:EntityBean">
+            <xsd:sequence>
+              <xsd:element name="entityId" type="xsd:long" />
+              <xsd:element name="seqNo" type="xsd:int" />
+              <xsd:element name="jobTitle" nillable="true" type="xsd:string" />
+              <xsd:element name="companyName" nillable="true" type="xsd:string" />
+              <xsd:element name="dateFrom" nillable="true" type="xsd:dateTime" />
+              <xsd:element name="dateTo" nillable="true" type="xsd:dateTime" />
+              <xsd:element name="jobDescription" nillable="true" type="xsd:string" />
+              <xsd:element name="companyStreetAddress" nillable="true" type="xsd:string" />
+              <xsd:element name="companyCityState" nillable="true" type="xsd:string" />
+              <xsd:element name="phone" nillable="true" type="xsd:string" />
+              <xsd:element name="directSupervisor" nillable="true" type="xsd:string" />
+              <xsd:element name="supervisorTitle" nillable="true" type="xsd:string" />
+              <xsd:element name="explanation" nillable="true" type="xsd:string" />
+              <xsd:element name="finalRateOfPay" nillable="true" type="xsd:string" />
+              <xsd:element name="okToContact" type="xsd:boolean" />
+              <xsd:element name="reasonForLeaving" nillable="true" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfWorkHistoryBean">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="impl:WorkHistoryBean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="WorkHistoryArr">
+        <xsd:sequence>
+          <xsd:element name="array" nillable="true" type="impl:ArrayOfWorkHistoryBean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="FlexEntityBean">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="impl:EntityBean">
+            <xsd:sequence>
+              <xsd:element name="attributes" nillable="true" type="impl:ArrayOfFlexFieldBean" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="FlexRollingEntityBean">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="impl:FlexEntityBean">
+            <xsd:sequence>
+              <xsd:element name="entityType" nillable="true" type="xsd:string" />
+              <xsd:element name="entityId" type="xsd:long" />
+              <xsd:element name="subType" nillable="true" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfFlexRollingEntityBean">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="impl:FlexRollingEntityBean" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="FlexRollingEntityBeanArr">
+        <xsd:sequence>
+          <xsd:element name="array" nillable="true" type="impl:ArrayOfFlexRollingEntityBean" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+    <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xml.apache.org/xml-soap">
+      <xsd:import namespace="urn:TBEWebAPI" />
+      <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+      <xsd:complexType name="mapItem">
+        <xsd:sequence>
+          <xsd:element name="key" nillable="true" type="xsd:anyType" />
+          <xsd:element name="value" nillable="true" type="xsd:anyType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Map">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="apachesoap:mapItem" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Vector">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="xsd:anyType" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getEventByEntityResponse">
+    <wsdl:part name="getEventByEntityReturn" type="impl:LongArr" />
+  </wsdl:message>
+  <wsdl:message name="updateAccountResponse" />
+  <wsdl:message name="createAccountRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:AccountBean" />
+  </wsdl:message>
+  <wsdl:message name="updateInterviewRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:InterviewBean" />
+  </wsdl:message>
+  <wsdl:message name="createContactResponse">
+    <wsdl:part name="createContactReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getMetadataRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="deleteInterviewResponse" />
+  <wsdl:message name="deleteUserResponse" />
+  <wsdl:message name="getCandidateWorkHistoryResponse">
+    <wsdl:part name="getCandidateWorkHistoryReturn" type="impl:WorkHistoryArr" />
+  </wsdl:message>
+  <wsdl:message name="parseResumeResponse">
+    <wsdl:part name="parseResumeReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getEventByIdRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="searchEmployeeResponse">
+    <wsdl:part name="searchEmployeeReturn" type="impl:SearchResultArr" />
+  </wsdl:message>
+  <wsdl:message name="deleteRollingEntityResponse" />
+  <wsdl:message name="getBackgroundCheckByIdResponse">
+    <wsdl:part name="getBackgroundCheckByIdReturn" type="impl:BackgroundCheckBean" />
+  </wsdl:message>
+  <wsdl:message name="upsertRollingEntityRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="rollingEntityBean" type="impl:FlexRollingEntityBean" />
+  </wsdl:message>
+  <wsdl:message name="getLookupRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="searchContactResponse">
+    <wsdl:part name="searchContactReturn" type="impl:SearchResultArr" />
+  </wsdl:message>
+  <wsdl:message name="getTaskByEntityResponse">
+    <wsdl:part name="getTaskByEntityReturn" type="impl:LongArr" />
+  </wsdl:message>
+  <wsdl:message name="getUserHistoryResponse">
+    <wsdl:part name="getUserHistoryReturn" type="impl:HistoryBeanArr" />
+  </wsdl:message>
+  <wsdl:message name="updateContactLogResponse" />
+  <wsdl:message name="createAttachmentResponse">
+    <wsdl:part name="createAttachmentReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getReferencesByCandidateResponse">
+    <wsdl:part name="getReferencesByCandidateReturn" type="impl:LongArr" />
+  </wsdl:message>
+  <wsdl:message name="unpostRequisitionResponse" />
+  <wsdl:message name="updateUserResponse" />
+  <wsdl:message name="getInterviewByIdResponse">
+    <wsdl:part name="getInterviewByIdReturn" type="impl:InterviewBean" />
+  </wsdl:message>
+  <wsdl:message name="getEmployeeByNumberResponse">
+    <wsdl:part name="getEmployeeByNumberReturn" type="impl:EmployeeBean" />
+  </wsdl:message>
+  <wsdl:message name="getBinaryResumeRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="setAssociatedUserResponse" />
+  <wsdl:message name="deleteContactResponse" />
+  <wsdl:message name="getAttachmentsRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getAccountByIdRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="searchContactRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="apachesoap:Map" />
+  </wsdl:message>
+  <wsdl:message name="getContactLogsByEntityRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:string" />
+    <wsdl:part name="in2" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getRequisitionsResponse">
+    <wsdl:part name="getRequisitionsReturn" type="impl:LongArr" />
+  </wsdl:message>
+  <wsdl:message name="parseResumeIntoCandidateRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:ByteArr" />
+    <wsdl:part name="referredBy" type="xsd:string" />
+    <wsdl:part name="fileName" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getTaskByEntityRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:string" />
+    <wsdl:part name="in2" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="parseResumeIntoCandidateResponse">
+    <wsdl:part name="parseResumeIntoCandidateReturn" type="impl:CandidateInsertResultBean" />
+  </wsdl:message>
+  <wsdl:message name="getEmployeeByIdRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="employeeId" type="xsd:long" />
+    <wsdl:part name="additionalEntities" type="apachesoap:Vector" />
+  </wsdl:message>
+  <wsdl:message name="deleteTaskResponse" />
+  <wsdl:message name="updateContactLogRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:ContactLogBean" />
+  </wsdl:message>
+  <wsdl:message name="setBinaryResumeResponse" />
+  <wsdl:message name="createTaskRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:TaskBean" />
+  </wsdl:message>
+  <wsdl:message name="getEmployeeByNumberRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="employeeNumber" type="xsd:string" />
+    <wsdl:part name="additionalEntities" type="apachesoap:Vector" />
+  </wsdl:message>
+  <wsdl:message name="getAccountByIdResponse">
+    <wsdl:part name="getAccountByIdReturn" type="impl:AccountBean" />
+  </wsdl:message>
+  <wsdl:message name="getContactHistoryRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getTaskByIdResponse">
+    <wsdl:part name="getTaskByIdReturn" type="impl:TaskBean" />
+  </wsdl:message>
+  <wsdl:message name="setAssociatedUserRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+    <wsdl:part name="in2" type="xsd:string" />
+    <wsdl:part name="in3" type="xsd:long" />
+    <wsdl:part name="in4" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="getUserHistoryRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="searchUserRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="apachesoap:Map" />
+  </wsdl:message>
+  <wsdl:message name="getEntityAttachmentsResponse">
+    <wsdl:part name="getEntityAttachmentsReturn" type="impl:LongArr" />
+  </wsdl:message>
+  <wsdl:message name="getUserByIdResponse">
+    <wsdl:part name="getUserByIdReturn" type="impl:UserBean" />
+  </wsdl:message>
+  <wsdl:message name="createEventResponse">
+    <wsdl:part name="createEventReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getLookupResponse">
+    <wsdl:part name="getLookupReturn" type="impl:LookupArr" />
+  </wsdl:message>
+  <wsdl:message name="getCandReqStatusResponse">
+    <wsdl:part name="getCandReqStatusReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="createUserWithPermissionsResponse">
+    <wsdl:part name="createUserWithPermissionsReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="createEmailSentLogRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:string" />
+    <wsdl:part name="in2" type="xsd:string" />
+    <wsdl:part name="in3" type="xsd:string" />
+    <wsdl:part name="in4" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="createRequisitionTemplateResponse">
+    <wsdl:part name="createRequisitionTemplateReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="createContactRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:ContactBean" />
+  </wsdl:message>
+  <wsdl:message name="upsertCandidateToRequisitionsResponse" />
+  <wsdl:message name="submitCandidateResponse" />
+  <wsdl:message name="searchRequisitionRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="apachesoap:Map" />
+  </wsdl:message>
+  <wsdl:message name="createEmailLogResponse">
+    <wsdl:part name="createEmailLogReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="createLinkRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="entityType1" type="xsd:string" />
+    <wsdl:part name="entityId1" type="xsd:long" />
+    <wsdl:part name="entityType2" type="xsd:string" />
+    <wsdl:part name="entityId2" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="updateReferenceResponse" />
+  <wsdl:message name="getAttachmentRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="upsertRollingEntityResponse">
+    <wsdl:part name="upsertRollingEntityReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="updateReferenceRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:ReferenceBean" />
+  </wsdl:message>
+  <wsdl:message name="createBackgroundCheckResponse">
+    <wsdl:part name="createBackgroundCheckReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getContactLogByIdResponse">
+    <wsdl:part name="getContactLogByIdReturn" type="impl:ContactLogBean" />
+  </wsdl:message>
+  <wsdl:message name="getRequisitionHistoryRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="createInterviewRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:InterviewBean" />
+  </wsdl:message>
+  <wsdl:message name="createTaskResponse">
+    <wsdl:part name="createTaskReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="searchUserResponse">
+    <wsdl:part name="searchUserReturn" type="impl:SearchResultArr" />
+  </wsdl:message>
+  <wsdl:message name="deleteEventRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="deleteTaskRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="removeCandidateRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+    <wsdl:part name="in2" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getBackgroundChecksByCandidateResponse">
+    <wsdl:part name="getBackgroundChecksByCandidateReturn" type="impl:LongArr" />
+  </wsdl:message>
+  <wsdl:message name="updateInterviewResponse" />
+  <wsdl:message name="createEventRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:CalendarEventBean" />
+  </wsdl:message>
+  <wsdl:message name="getLoginTokenRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="deleteAttachmentResponse" />
+  <wsdl:message name="upsertCandidateToRequisitionsRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="candidateId" type="xsd:long" />
+    <wsdl:part name="requisitionIds" type="impl:LongArr" />
+    <wsdl:part name="statusId" type="xsd:long" />
+    <wsdl:part name="reasonId" type="xsd:long" />
+    <wsdl:part name="doRanking" type="xsd:boolean" />
+  </wsdl:message>
+  <wsdl:message name="updateBackgroundCheckRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:BackgroundCheckBean" />
+  </wsdl:message>
+  <wsdl:message name="getAttachmentsResponse">
+    <wsdl:part name="getAttachmentsReturn" type="impl:LongArr" />
+  </wsdl:message>
+  <wsdl:message name="deleteReferenceResponse" />
+  <wsdl:message name="updateEventResponse" />
+  <wsdl:message name="getContactByIdResponse">
+    <wsdl:part name="getContactByIdReturn" type="impl:ContactBean" />
+  </wsdl:message>
+  <wsdl:message name="updateEventRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:CalendarEventBean" />
+  </wsdl:message>
+  <wsdl:message name="getCandidateDetailsByIdResponse">
+    <wsdl:part name="getCandidateDetailsByIdReturn" type="impl:CandidateDetailsBean" />
+  </wsdl:message>
+  <wsdl:message name="removeCandidateResponse" />
+  <wsdl:message name="getPublicEventsResponse">
+    <wsdl:part name="getPublicEventsReturn" type="impl:LongArr" />
+  </wsdl:message>
+  <wsdl:message name="getOfferByIdRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="setBinaryResumeRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+    <wsdl:part name="in2" type="xsd:string" />
+    <wsdl:part name="in3" type="impl:ByteArr" />
+  </wsdl:message>
+  <wsdl:message name="updateTaskResponse" />
+  <wsdl:message name="logoutResponse" />
+  <wsdl:message name="getCandidateHistoryResponse">
+    <wsdl:part name="getCandidateHistoryReturn" type="impl:HistoryBeanArr" />
+  </wsdl:message>
+  <wsdl:message name="searchRequisitionResponse">
+    <wsdl:part name="searchRequisitionReturn" type="impl:SearchResultArr" />
+  </wsdl:message>
+  <wsdl:message name="deleteContactLogRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="createAccountResponse">
+    <wsdl:part name="createAccountReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="searchAccountResponse">
+    <wsdl:part name="searchAccountReturn" type="impl:SearchResultArr" />
+  </wsdl:message>
+  <wsdl:message name="WebServicesException">
+    <wsdl:part name="fault" type="impl:WebServicesException" />
+  </wsdl:message>
+  <wsdl:message name="deleteBackgroundCheckRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="createOfferRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:OfferBean" />
+  </wsdl:message>
+  <wsdl:message name="updateOfferResponse" />
+  <wsdl:message name="getContactLogsByEntityResponse">
+    <wsdl:part name="getContactLogsByEntityReturn" type="impl:LongArr" />
+  </wsdl:message>
+  <wsdl:message name="createInterviewResponse">
+    <wsdl:part name="createInterviewReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="searchAccountRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="apachesoap:Map" />
+  </wsdl:message>
+  <wsdl:message name="deleteAccountResponse" />
+  <wsdl:message name="searchCandidateResponse">
+    <wsdl:part name="searchCandidateReturn" type="impl:SearchResultArr" />
+  </wsdl:message>
+  <wsdl:message name="getAssociatedUsersResponse">
+    <wsdl:part name="getAssociatedUsersReturn" type="impl:LongArr" />
+  </wsdl:message>
+  <wsdl:message name="createRequisitionRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:RequisitionBean" />
+  </wsdl:message>
+  <wsdl:message name="deleteUserRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getTaskByUserResponse">
+    <wsdl:part name="getTaskByUserReturn" type="impl:LongArr" />
+  </wsdl:message>
+  <wsdl:message name="upsertEmployeeRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="employeeNumber" type="xsd:string" />
+    <wsdl:part name="bean" type="impl:EmployeeBean" />
+  </wsdl:message>
+  <wsdl:message name="deleteEmployeeByNumberResponse" />
+  <wsdl:message name="unpostRequisitionRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="requisitionId" type="xsd:long" />
+    <wsdl:part name="posterId" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="parseResumeRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:ByteArr" />
+  </wsdl:message>
+  <wsdl:message name="removeAssociatedUserRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+    <wsdl:part name="in2" type="xsd:string" />
+    <wsdl:part name="in3" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="createEmployeeRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="bean" type="impl:EmployeeBean" />
+  </wsdl:message>
+  <wsdl:message name="updateContactRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:ContactBean" />
+  </wsdl:message>
+  <wsdl:message name="getContactByIdRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="deleteRollingEntityRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="rollingEntityId" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="createReferenceResponse">
+    <wsdl:part name="createReferenceReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="createEmailSentLogResponse">
+    <wsdl:part name="createEmailSentLogReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="deleteEmployeeRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="employeeId" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="createAttachmentRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+    <wsdl:part name="in2" type="xsd:string" />
+    <wsdl:part name="in3" type="xsd:string" />
+    <wsdl:part name="in4" type="xsd:string" />
+    <wsdl:part name="in5" type="impl:ByteArr" />
+  </wsdl:message>
+  <wsdl:message name="getInterviewByIdRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="removeLinkResponse" />
+  <wsdl:message name="deleteRequisitionRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="createBackgroundCheckRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:BackgroundCheckBean" />
+  </wsdl:message>
+  <wsdl:message name="getBinaryResumeResponse">
+    <wsdl:part name="getBinaryResumeReturn" type="impl:ByteArr" />
+  </wsdl:message>
+  <wsdl:message name="getCandidatesByRequisitionRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getCandReqStatusRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+    <wsdl:part name="in2" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="updateUserRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:UserBean" />
+  </wsdl:message>
+  <wsdl:message name="getCandidatesByRequisitionResponse">
+    <wsdl:part name="getCandidatesByRequisitionReturn" type="impl:LongArr" />
+  </wsdl:message>
+  <wsdl:message name="getBinaryOfferResponse">
+    <wsdl:part name="getBinaryOfferReturn" type="impl:ByteArr" />
+  </wsdl:message>
+  <wsdl:message name="removeAssociatedUserResponse" />
+  <wsdl:message name="updateCandidateResponse" />
+  <wsdl:message name="getTaskByUserRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+    <wsdl:part name="in2" type="xsd:dateTime" />
+    <wsdl:part name="in3" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="createEntityAttachmentRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="entityType" type="xsd:string" />
+    <wsdl:part name="entityId" type="xsd:long" />
+    <wsdl:part name="description" type="xsd:string" />
+    <wsdl:part name="fileName" type="xsd:string" />
+    <wsdl:part name="contentType" type="xsd:string" />
+    <wsdl:part name="data" type="impl:ByteArr" />
+  </wsdl:message>
+  <wsdl:message name="getOfferByIdResponse">
+    <wsdl:part name="getOfferByIdReturn" type="impl:OfferBean" />
+  </wsdl:message>
+  <wsdl:message name="getInterviewsByCandidateRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getEventByEntityRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:string" />
+    <wsdl:part name="in2" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getAccountHistoryResponse">
+    <wsdl:part name="getAccountHistoryReturn" type="impl:HistoryBeanArr" />
+  </wsdl:message>
+  <wsdl:message name="getReferencesByCandidateRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getBackgroundChecksByCandidateRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="searchEmployeeRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="searchParams" type="apachesoap:Map" />
+  </wsdl:message>
+  <wsdl:message name="getOffersResponse">
+    <wsdl:part name="getOffersReturn" type="impl:LongArr" />
+  </wsdl:message>
+  <wsdl:message name="getPublicEventsRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:dateTime" />
+    <wsdl:part name="in2" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="getAssociatedUsersRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+    <wsdl:part name="in2" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="loginResponse">
+    <wsdl:part name="loginReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getRollingEntitiesResponse">
+    <wsdl:part name="getRollingEntitiesReturn" type="impl:FlexRollingEntityBeanArr" />
+  </wsdl:message>
+  <wsdl:message name="updateAttachmentResponse" />
+  <wsdl:message name="updateContactResponse" />
+  <wsdl:message name="createLinkResponse" />
+  <wsdl:message name="getSystemPropsRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="createCandidateRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:CandidateBean" />
+  </wsdl:message>
+  <wsdl:message name="deleteContactRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="deleteContactLogResponse" />
+  <wsdl:message name="updateAttachmentRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+    <wsdl:part name="in2" type="xsd:string" />
+    <wsdl:part name="in3" type="xsd:string" />
+    <wsdl:part name="in4" type="xsd:string" />
+    <wsdl:part name="in5" type="impl:ByteArr" />
+  </wsdl:message>
+  <wsdl:message name="createEmployeeResponse">
+    <wsdl:part name="createEmployeeReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="deleteEventResponse" />
+  <wsdl:message name="setBinaryOfferRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+    <wsdl:part name="in2" type="xsd:string" />
+    <wsdl:part name="in3" type="impl:ByteArr" />
+  </wsdl:message>
+  <wsdl:message name="getTaskByIdRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getAttachmentResponse">
+    <wsdl:part name="getAttachmentReturn" type="impl:AttachmentBean" />
+  </wsdl:message>
+  <wsdl:message name="getEntityAttachmentsRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="entityType" type="xsd:string" />
+    <wsdl:part name="entityId" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="createUserResponse">
+    <wsdl:part name="createUserReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="upsertEmployeeResponse">
+    <wsdl:part name="upsertEmployeeReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getAttachmentDataRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="updateRequisitionRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:RequisitionBean" />
+  </wsdl:message>
+  <wsdl:message name="createUserRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:UserBean" />
+  </wsdl:message>
+  <wsdl:message name="postRequisitionResponse" />
+  <wsdl:message name="updateOfferRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:OfferBean" />
+  </wsdl:message>
+  <wsdl:message name="getContactHistoryResponse">
+    <wsdl:part name="getContactHistoryReturn" type="impl:HistoryBeanArr" />
+  </wsdl:message>
+  <wsdl:message name="getReferenceByIdRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="createContactLogRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:ContactLogBean" />
+  </wsdl:message>
+  <wsdl:message name="deleteCandidateResponse" />
+  <wsdl:message name="setBinaryOfferResponse" />
+  <wsdl:message name="getRollingEntitiesRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="rollingEntityType" type="xsd:string" />
+    <wsdl:part name="entityType" type="xsd:string" />
+    <wsdl:part name="entityId" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="createRequisitionTemplateRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:RequisitionBean" />
+  </wsdl:message>
+  <wsdl:message name="deleteReferenceRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getCandidateDetailsByIdRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+    <wsdl:part name="in2" type="xsd:boolean" />
+    <wsdl:part name="in3" type="xsd:boolean" />
+    <wsdl:part name="in4" type="xsd:boolean" />
+    <wsdl:part name="in5" type="xsd:boolean" />
+    <wsdl:part name="in6" type="xsd:boolean" />
+    <wsdl:part name="in7" type="xsd:boolean" />
+  </wsdl:message>
+  <wsdl:message name="createCandidateResponse">
+    <wsdl:part name="createCandidateReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getEmployeeByIdResponse">
+    <wsdl:part name="getEmployeeByIdReturn" type="impl:EmployeeBean" />
+  </wsdl:message>
+  <wsdl:message name="updateRequisitionResponse" />
+  <wsdl:message name="getOffersRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="submitCandidateRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+    <wsdl:part name="in2" type="impl:LongArr" />
+  </wsdl:message>
+  <wsdl:message name="getRequisitionByIdResponse">
+    <wsdl:part name="getRequisitionByIdReturn" type="impl:RequisitionBean" />
+  </wsdl:message>
+  <wsdl:message name="getRequisitionsRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getEnabledServicesRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="updateEmployeeRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="bean" type="impl:EmployeeBean" />
+  </wsdl:message>
+  <wsdl:message name="deleteBackgroundCheckResponse" />
+  <wsdl:message name="getInterviewsByCandidateResponse">
+    <wsdl:part name="getInterviewsByCandidateReturn" type="impl:LongArr" />
+  </wsdl:message>
+  <wsdl:message name="createEmailLogRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:string" />
+    <wsdl:part name="in2" type="xsd:string" />
+    <wsdl:part name="in3" type="xsd:string" />
+    <wsdl:part name="in4" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="createOfferResponse">
+    <wsdl:part name="createOfferReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="createRequisitionResponse">
+    <wsdl:part name="createRequisitionReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getLoginTokenResponse">
+    <wsdl:part name="getLoginTokenReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="deleteOfferRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="updateEmployeeResponse" />
+  <wsdl:message name="getAttachmentDataResponse">
+    <wsdl:part name="getAttachmentDataReturn" type="impl:ByteArr" />
+  </wsdl:message>
+  <wsdl:message name="deleteInterviewRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getUserByIdRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getContactLogByIdRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getAccountHistoryRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="deleteEmployeeByNumberRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="employeeNumber" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getCandidateWorkHistoryRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="candidateId" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="deleteAccountRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="createEntityAttachmentResponse">
+    <wsdl:part name="createEntityAttachmentReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="createUserWithPermissionsRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="userBeanToCreate" type="impl:UserBean" />
+    <wsdl:part name="additionalEntities" type="apachesoap:Map" />
+  </wsdl:message>
+  <wsdl:message name="getEventByIdResponse">
+    <wsdl:part name="getEventByIdReturn" type="impl:CalendarEventBean" />
+  </wsdl:message>
+  <wsdl:message name="updateAccountRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:AccountBean" />
+  </wsdl:message>
+  <wsdl:message name="logoutRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="updateBackgroundCheckResponse" />
+  <wsdl:message name="getSystemPropsResponse">
+    <wsdl:part name="getSystemPropsReturn" type="apachesoap:Map" />
+  </wsdl:message>
+  <wsdl:message name="getRequisitionHistoryResponse">
+    <wsdl:part name="getRequisitionHistoryReturn" type="impl:HistoryBeanArr" />
+  </wsdl:message>
+  <wsdl:message name="removeLinkRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="entityType1" type="xsd:string" />
+    <wsdl:part name="entityId1" type="xsd:long" />
+    <wsdl:part name="entityType2" type="xsd:string" />
+    <wsdl:part name="entityId2" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getCandidateByIdRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="updateTaskRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:TaskBean" />
+  </wsdl:message>
+  <wsdl:message name="loginRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:string" />
+    <wsdl:part name="in2" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getBackgroundCheckByIdRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="postRequisitionRequest">
+    <wsdl:part name="sessionId" type="xsd:string" />
+    <wsdl:part name="requisitionId" type="xsd:long" />
+    <wsdl:part name="posterId" type="xsd:long" />
+    <wsdl:part name="formVersion" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="deleteAttachmentRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getBinaryOfferRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="getRequisitionByIdRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="deleteEmployeeResponse" />
+  <wsdl:message name="deleteCandidateRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="updateCandidateRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:CandidateBean" />
+  </wsdl:message>
+  <wsdl:message name="createContactLogResponse">
+    <wsdl:part name="createContactLogReturn" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="createReferenceRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="impl:ReferenceBean" />
+  </wsdl:message>
+  <wsdl:message name="getReferenceByIdResponse">
+    <wsdl:part name="getReferenceByIdReturn" type="impl:ReferenceBean" />
+  </wsdl:message>
+  <wsdl:message name="getCandidateByIdResponse">
+    <wsdl:part name="getCandidateByIdReturn" type="impl:CandidateBean" />
+  </wsdl:message>
+  <wsdl:message name="deleteOfferResponse" />
+  <wsdl:message name="getEnabledServicesResponse">
+    <wsdl:part name="getEnabledServicesReturn" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="deleteRequisitionResponse" />
+  <wsdl:message name="getCandidateHistoryRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="xsd:long" />
+  </wsdl:message>
+  <wsdl:message name="searchCandidateRequest">
+    <wsdl:part name="in0" type="xsd:string" />
+    <wsdl:part name="in1" type="apachesoap:Map" />
+  </wsdl:message>
+  <wsdl:message name="getMetadataResponse">
+    <wsdl:part name="getMetadataReturn" type="impl:MetadataArr" />
+  </wsdl:message>
+  <wsdl:portType name="IWebAPI">
+    <wsdl:operation name="createTask" parameterOrder="in0 in1">
+      <wsdl:input name="createTaskRequest" message="impl:createTaskRequest" />
+      <wsdl:output name="createTaskResponse" message="impl:createTaskResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="createReference" parameterOrder="in0 in1">
+      <wsdl:input name="createReferenceRequest" message="impl:createReferenceRequest" />
+      <wsdl:output name="createReferenceResponse" message="impl:createReferenceResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="createEvent" parameterOrder="in0 in1">
+      <wsdl:input name="createEventRequest" message="impl:createEventRequest" />
+      <wsdl:output name="createEventResponse" message="impl:createEventResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="login" parameterOrder="in0 in1 in2">
+      <wsdl:input name="loginRequest" message="impl:loginRequest" />
+      <wsdl:output name="loginResponse" message="impl:loginResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="logout" parameterOrder="in0">
+      <wsdl:input name="logoutRequest" message="impl:logoutRequest" />
+      <wsdl:output name="logoutResponse" message="impl:logoutResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getEnabledServices" parameterOrder="in0">
+      <wsdl:input name="getEnabledServicesRequest" message="impl:getEnabledServicesRequest" />
+      <wsdl:output name="getEnabledServicesResponse" message="impl:getEnabledServicesResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getLoginToken" parameterOrder="sessionId">
+      <wsdl:input name="getLoginTokenRequest" message="impl:getLoginTokenRequest" />
+      <wsdl:output name="getLoginTokenResponse" message="impl:getLoginTokenResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="searchAccount" parameterOrder="in0 in1">
+      <wsdl:input name="searchAccountRequest" message="impl:searchAccountRequest" />
+      <wsdl:output name="searchAccountResponse" message="impl:searchAccountResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getAccountById" parameterOrder="in0 in1">
+      <wsdl:input name="getAccountByIdRequest" message="impl:getAccountByIdRequest" />
+      <wsdl:output name="getAccountByIdResponse" message="impl:getAccountByIdResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="createAccount" parameterOrder="in0 in1">
+      <wsdl:input name="createAccountRequest" message="impl:createAccountRequest" />
+      <wsdl:output name="createAccountResponse" message="impl:createAccountResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="updateAccount" parameterOrder="in0 in1">
+      <wsdl:input name="updateAccountRequest" message="impl:updateAccountRequest" />
+      <wsdl:output name="updateAccountResponse" message="impl:updateAccountResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteAccount" parameterOrder="in0 in1">
+      <wsdl:input name="deleteAccountRequest" message="impl:deleteAccountRequest" />
+      <wsdl:output name="deleteAccountResponse" message="impl:deleteAccountResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getBackgroundChecksByCandidate" parameterOrder="in0 in1">
+      <wsdl:input name="getBackgroundChecksByCandidateRequest" message="impl:getBackgroundChecksByCandidateRequest" />
+      <wsdl:output name="getBackgroundChecksByCandidateResponse" message="impl:getBackgroundChecksByCandidateResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getBackgroundCheckById" parameterOrder="in0 in1">
+      <wsdl:input name="getBackgroundCheckByIdRequest" message="impl:getBackgroundCheckByIdRequest" />
+      <wsdl:output name="getBackgroundCheckByIdResponse" message="impl:getBackgroundCheckByIdResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="createBackgroundCheck" parameterOrder="in0 in1">
+      <wsdl:input name="createBackgroundCheckRequest" message="impl:createBackgroundCheckRequest" />
+      <wsdl:output name="createBackgroundCheckResponse" message="impl:createBackgroundCheckResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="updateBackgroundCheck" parameterOrder="in0 in1">
+      <wsdl:input name="updateBackgroundCheckRequest" message="impl:updateBackgroundCheckRequest" />
+      <wsdl:output name="updateBackgroundCheckResponse" message="impl:updateBackgroundCheckResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteBackgroundCheck" parameterOrder="in0 in1">
+      <wsdl:input name="deleteBackgroundCheckRequest" message="impl:deleteBackgroundCheckRequest" />
+      <wsdl:output name="deleteBackgroundCheckResponse" message="impl:deleteBackgroundCheckResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getEventByEntity" parameterOrder="in0 in1 in2">
+      <wsdl:input name="getEventByEntityRequest" message="impl:getEventByEntityRequest" />
+      <wsdl:output name="getEventByEntityResponse" message="impl:getEventByEntityResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getPublicEvents" parameterOrder="in0 in1 in2">
+      <wsdl:input name="getPublicEventsRequest" message="impl:getPublicEventsRequest" />
+      <wsdl:output name="getPublicEventsResponse" message="impl:getPublicEventsResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getEventById" parameterOrder="in0 in1">
+      <wsdl:input name="getEventByIdRequest" message="impl:getEventByIdRequest" />
+      <wsdl:output name="getEventByIdResponse" message="impl:getEventByIdResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="updateEvent" parameterOrder="in0 in1">
+      <wsdl:input name="updateEventRequest" message="impl:updateEventRequest" />
+      <wsdl:output name="updateEventResponse" message="impl:updateEventResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteEvent" parameterOrder="in0 in1">
+      <wsdl:input name="deleteEventRequest" message="impl:deleteEventRequest" />
+      <wsdl:output name="deleteEventResponse" message="impl:deleteEventResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="searchCandidate" parameterOrder="in0 in1">
+      <wsdl:input name="searchCandidateRequest" message="impl:searchCandidateRequest" />
+      <wsdl:output name="searchCandidateResponse" message="impl:searchCandidateResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getCandidateById" parameterOrder="in0 in1">
+      <wsdl:input name="getCandidateByIdRequest" message="impl:getCandidateByIdRequest" />
+      <wsdl:output name="getCandidateByIdResponse" message="impl:getCandidateByIdResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getRequisitions" parameterOrder="in0 in1">
+      <wsdl:input name="getRequisitionsRequest" message="impl:getRequisitionsRequest" />
+      <wsdl:output name="getRequisitionsResponse" message="impl:getRequisitionsResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getOffers" parameterOrder="in0 in1">
+      <wsdl:input name="getOffersRequest" message="impl:getOffersRequest" />
+      <wsdl:output name="getOffersResponse" message="impl:getOffersResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="createCandidate" parameterOrder="in0 in1">
+      <wsdl:input name="createCandidateRequest" message="impl:createCandidateRequest" />
+      <wsdl:output name="createCandidateResponse" message="impl:createCandidateResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="updateCandidate" parameterOrder="in0 in1">
+      <wsdl:input name="updateCandidateRequest" message="impl:updateCandidateRequest" />
+      <wsdl:output name="updateCandidateResponse" message="impl:updateCandidateResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="setBinaryResume" parameterOrder="in0 in1 in2 in3">
+      <wsdl:input name="setBinaryResumeRequest" message="impl:setBinaryResumeRequest" />
+      <wsdl:output name="setBinaryResumeResponse" message="impl:setBinaryResumeResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getBinaryResume" parameterOrder="in0 in1">
+      <wsdl:input name="getBinaryResumeRequest" message="impl:getBinaryResumeRequest" />
+      <wsdl:output name="getBinaryResumeResponse" message="impl:getBinaryResumeResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="submitCandidate" parameterOrder="in0 in1 in2">
+      <wsdl:input name="submitCandidateRequest" message="impl:submitCandidateRequest" />
+      <wsdl:output name="submitCandidateResponse" message="impl:submitCandidateResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="removeCandidate" parameterOrder="in0 in1 in2">
+      <wsdl:input name="removeCandidateRequest" message="impl:removeCandidateRequest" />
+      <wsdl:output name="removeCandidateResponse" message="impl:removeCandidateResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteCandidate" parameterOrder="in0 in1">
+      <wsdl:input name="deleteCandidateRequest" message="impl:deleteCandidateRequest" />
+      <wsdl:output name="deleteCandidateResponse" message="impl:deleteCandidateResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="searchContact" parameterOrder="in0 in1">
+      <wsdl:input name="searchContactRequest" message="impl:searchContactRequest" />
+      <wsdl:output name="searchContactResponse" message="impl:searchContactResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getContactById" parameterOrder="in0 in1">
+      <wsdl:input name="getContactByIdRequest" message="impl:getContactByIdRequest" />
+      <wsdl:output name="getContactByIdResponse" message="impl:getContactByIdResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="createContact" parameterOrder="in0 in1">
+      <wsdl:input name="createContactRequest" message="impl:createContactRequest" />
+      <wsdl:output name="createContactResponse" message="impl:createContactResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="updateContact" parameterOrder="in0 in1">
+      <wsdl:input name="updateContactRequest" message="impl:updateContactRequest" />
+      <wsdl:output name="updateContactResponse" message="impl:updateContactResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteContact" parameterOrder="in0 in1">
+      <wsdl:input name="deleteContactRequest" message="impl:deleteContactRequest" />
+      <wsdl:output name="deleteContactResponse" message="impl:deleteContactResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getCandidateHistory" parameterOrder="in0 in1">
+      <wsdl:input name="getCandidateHistoryRequest" message="impl:getCandidateHistoryRequest" />
+      <wsdl:output name="getCandidateHistoryResponse" message="impl:getCandidateHistoryResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getRequisitionHistory" parameterOrder="in0 in1">
+      <wsdl:input name="getRequisitionHistoryRequest" message="impl:getRequisitionHistoryRequest" />
+      <wsdl:output name="getRequisitionHistoryResponse" message="impl:getRequisitionHistoryResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getAccountHistory" parameterOrder="in0 in1">
+      <wsdl:input name="getAccountHistoryRequest" message="impl:getAccountHistoryRequest" />
+      <wsdl:output name="getAccountHistoryResponse" message="impl:getAccountHistoryResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getContactHistory" parameterOrder="in0 in1">
+      <wsdl:input name="getContactHistoryRequest" message="impl:getContactHistoryRequest" />
+      <wsdl:output name="getContactHistoryResponse" message="impl:getContactHistoryResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getUserHistory" parameterOrder="in0 in1">
+      <wsdl:input name="getUserHistoryRequest" message="impl:getUserHistoryRequest" />
+      <wsdl:output name="getUserHistoryResponse" message="impl:getUserHistoryResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getInterviewsByCandidate" parameterOrder="in0 in1">
+      <wsdl:input name="getInterviewsByCandidateRequest" message="impl:getInterviewsByCandidateRequest" />
+      <wsdl:output name="getInterviewsByCandidateResponse" message="impl:getInterviewsByCandidateResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getInterviewById" parameterOrder="in0 in1">
+      <wsdl:input name="getInterviewByIdRequest" message="impl:getInterviewByIdRequest" />
+      <wsdl:output name="getInterviewByIdResponse" message="impl:getInterviewByIdResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="createInterview" parameterOrder="in0 in1">
+      <wsdl:input name="createInterviewRequest" message="impl:createInterviewRequest" />
+      <wsdl:output name="createInterviewResponse" message="impl:createInterviewResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="updateInterview" parameterOrder="in0 in1">
+      <wsdl:input name="updateInterviewRequest" message="impl:updateInterviewRequest" />
+      <wsdl:output name="updateInterviewResponse" message="impl:updateInterviewResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteInterview" parameterOrder="in0 in1">
+      <wsdl:input name="deleteInterviewRequest" message="impl:deleteInterviewRequest" />
+      <wsdl:output name="deleteInterviewResponse" message="impl:deleteInterviewResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getOfferById" parameterOrder="in0 in1">
+      <wsdl:input name="getOfferByIdRequest" message="impl:getOfferByIdRequest" />
+      <wsdl:output name="getOfferByIdResponse" message="impl:getOfferByIdResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="createOffer" parameterOrder="in0 in1">
+      <wsdl:input name="createOfferRequest" message="impl:createOfferRequest" />
+      <wsdl:output name="createOfferResponse" message="impl:createOfferResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="updateOffer" parameterOrder="in0 in1">
+      <wsdl:input name="updateOfferRequest" message="impl:updateOfferRequest" />
+      <wsdl:output name="updateOfferResponse" message="impl:updateOfferResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="setBinaryOffer" parameterOrder="in0 in1 in2 in3">
+      <wsdl:input name="setBinaryOfferRequest" message="impl:setBinaryOfferRequest" />
+      <wsdl:output name="setBinaryOfferResponse" message="impl:setBinaryOfferResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getBinaryOffer" parameterOrder="in0 in1">
+      <wsdl:input name="getBinaryOfferRequest" message="impl:getBinaryOfferRequest" />
+      <wsdl:output name="getBinaryOfferResponse" message="impl:getBinaryOfferResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteOffer" parameterOrder="in0 in1">
+      <wsdl:input name="deleteOfferRequest" message="impl:deleteOfferRequest" />
+      <wsdl:output name="deleteOfferResponse" message="impl:deleteOfferResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getReferencesByCandidate" parameterOrder="in0 in1">
+      <wsdl:input name="getReferencesByCandidateRequest" message="impl:getReferencesByCandidateRequest" />
+      <wsdl:output name="getReferencesByCandidateResponse" message="impl:getReferencesByCandidateResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getReferenceById" parameterOrder="in0 in1">
+      <wsdl:input name="getReferenceByIdRequest" message="impl:getReferenceByIdRequest" />
+      <wsdl:output name="getReferenceByIdResponse" message="impl:getReferenceByIdResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="updateReference" parameterOrder="in0 in1">
+      <wsdl:input name="updateReferenceRequest" message="impl:updateReferenceRequest" />
+      <wsdl:output name="updateReferenceResponse" message="impl:updateReferenceResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteReference" parameterOrder="in0 in1">
+      <wsdl:input name="deleteReferenceRequest" message="impl:deleteReferenceRequest" />
+      <wsdl:output name="deleteReferenceResponse" message="impl:deleteReferenceResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="searchRequisition" parameterOrder="in0 in1">
+      <wsdl:input name="searchRequisitionRequest" message="impl:searchRequisitionRequest" />
+      <wsdl:output name="searchRequisitionResponse" message="impl:searchRequisitionResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getRequisitionById" parameterOrder="in0 in1">
+      <wsdl:input name="getRequisitionByIdRequest" message="impl:getRequisitionByIdRequest" />
+      <wsdl:output name="getRequisitionByIdResponse" message="impl:getRequisitionByIdResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getCandidatesByRequisition" parameterOrder="in0 in1">
+      <wsdl:input name="getCandidatesByRequisitionRequest" message="impl:getCandidatesByRequisitionRequest" />
+      <wsdl:output name="getCandidatesByRequisitionResponse" message="impl:getCandidatesByRequisitionResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getAssociatedUsers" parameterOrder="in0 in1 in2">
+      <wsdl:input name="getAssociatedUsersRequest" message="impl:getAssociatedUsersRequest" />
+      <wsdl:output name="getAssociatedUsersResponse" message="impl:getAssociatedUsersResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="createRequisition" parameterOrder="in0 in1">
+      <wsdl:input name="createRequisitionRequest" message="impl:createRequisitionRequest" />
+      <wsdl:output name="createRequisitionResponse" message="impl:createRequisitionResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="updateRequisition" parameterOrder="in0 in1">
+      <wsdl:input name="updateRequisitionRequest" message="impl:updateRequisitionRequest" />
+      <wsdl:output name="updateRequisitionResponse" message="impl:updateRequisitionResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="setAssociatedUser" parameterOrder="in0 in1 in2 in3 in4">
+      <wsdl:input name="setAssociatedUserRequest" message="impl:setAssociatedUserRequest" />
+      <wsdl:output name="setAssociatedUserResponse" message="impl:setAssociatedUserResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="removeAssociatedUser" parameterOrder="in0 in1 in2 in3">
+      <wsdl:input name="removeAssociatedUserRequest" message="impl:removeAssociatedUserRequest" />
+      <wsdl:output name="removeAssociatedUserResponse" message="impl:removeAssociatedUserResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteRequisition" parameterOrder="in0 in1">
+      <wsdl:input name="deleteRequisitionRequest" message="impl:deleteRequisitionRequest" />
+      <wsdl:output name="deleteRequisitionResponse" message="impl:deleteRequisitionResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getTaskByEntity" parameterOrder="in0 in1 in2">
+      <wsdl:input name="getTaskByEntityRequest" message="impl:getTaskByEntityRequest" />
+      <wsdl:output name="getTaskByEntityResponse" message="impl:getTaskByEntityResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getTaskByUser" parameterOrder="in0 in1 in2 in3">
+      <wsdl:input name="getTaskByUserRequest" message="impl:getTaskByUserRequest" />
+      <wsdl:output name="getTaskByUserResponse" message="impl:getTaskByUserResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getTaskById" parameterOrder="in0 in1">
+      <wsdl:input name="getTaskByIdRequest" message="impl:getTaskByIdRequest" />
+      <wsdl:output name="getTaskByIdResponse" message="impl:getTaskByIdResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="updateTask" parameterOrder="in0 in1">
+      <wsdl:input name="updateTaskRequest" message="impl:updateTaskRequest" />
+      <wsdl:output name="updateTaskResponse" message="impl:updateTaskResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteTask" parameterOrder="in0 in1">
+      <wsdl:input name="deleteTaskRequest" message="impl:deleteTaskRequest" />
+      <wsdl:output name="deleteTaskResponse" message="impl:deleteTaskResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="searchUser" parameterOrder="in0 in1">
+      <wsdl:input name="searchUserRequest" message="impl:searchUserRequest" />
+      <wsdl:output name="searchUserResponse" message="impl:searchUserResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getUserById" parameterOrder="in0 in1">
+      <wsdl:input name="getUserByIdRequest" message="impl:getUserByIdRequest" />
+      <wsdl:output name="getUserByIdResponse" message="impl:getUserByIdResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="createUser" parameterOrder="in0 in1">
+      <wsdl:input name="createUserRequest" message="impl:createUserRequest" />
+      <wsdl:output name="createUserResponse" message="impl:createUserResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="createUserWithPermissions" parameterOrder="sessionId userBeanToCreate additionalEntities">
+      <wsdl:input name="createUserWithPermissionsRequest" message="impl:createUserWithPermissionsRequest" />
+      <wsdl:output name="createUserWithPermissionsResponse" message="impl:createUserWithPermissionsResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="updateUser" parameterOrder="in0 in1">
+      <wsdl:input name="updateUserRequest" message="impl:updateUserRequest" />
+      <wsdl:output name="updateUserResponse" message="impl:updateUserResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteUser" parameterOrder="in0 in1">
+      <wsdl:input name="deleteUserRequest" message="impl:deleteUserRequest" />
+      <wsdl:output name="deleteUserResponse" message="impl:deleteUserResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getContactLogsByEntity" parameterOrder="in0 in1 in2">
+      <wsdl:input name="getContactLogsByEntityRequest" message="impl:getContactLogsByEntityRequest" />
+      <wsdl:output name="getContactLogsByEntityResponse" message="impl:getContactLogsByEntityResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getContactLogById" parameterOrder="in0 in1">
+      <wsdl:input name="getContactLogByIdRequest" message="impl:getContactLogByIdRequest" />
+      <wsdl:output name="getContactLogByIdResponse" message="impl:getContactLogByIdResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="createContactLog" parameterOrder="in0 in1">
+      <wsdl:input name="createContactLogRequest" message="impl:createContactLogRequest" />
+      <wsdl:output name="createContactLogResponse" message="impl:createContactLogResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="createEmailLog" parameterOrder="in0 in1 in2 in3 in4">
+      <wsdl:input name="createEmailLogRequest" message="impl:createEmailLogRequest" />
+      <wsdl:output name="createEmailLogResponse" message="impl:createEmailLogResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="createEmailSentLog" parameterOrder="in0 in1 in2 in3 in4">
+      <wsdl:input name="createEmailSentLogRequest" message="impl:createEmailSentLogRequest" />
+      <wsdl:output name="createEmailSentLogResponse" message="impl:createEmailSentLogResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="updateContactLog" parameterOrder="in0 in1">
+      <wsdl:input name="updateContactLogRequest" message="impl:updateContactLogRequest" />
+      <wsdl:output name="updateContactLogResponse" message="impl:updateContactLogResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteContactLog" parameterOrder="in0 in1">
+      <wsdl:input name="deleteContactLogRequest" message="impl:deleteContactLogRequest" />
+      <wsdl:output name="deleteContactLogResponse" message="impl:deleteContactLogResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getSystemProps" parameterOrder="in0">
+      <wsdl:input name="getSystemPropsRequest" message="impl:getSystemPropsRequest" />
+      <wsdl:output name="getSystemPropsResponse" message="impl:getSystemPropsResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getCandReqStatus" parameterOrder="in0 in1 in2">
+      <wsdl:input name="getCandReqStatusRequest" message="impl:getCandReqStatusRequest" />
+      <wsdl:output name="getCandReqStatusResponse" message="impl:getCandReqStatusResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="parseResume" parameterOrder="in0 in1">
+      <wsdl:input name="parseResumeRequest" message="impl:parseResumeRequest" />
+      <wsdl:output name="parseResumeResponse" message="impl:parseResumeResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="parseResumeIntoCandidate" parameterOrder="in0 in1 referredBy fileName">
+      <wsdl:input name="parseResumeIntoCandidateRequest" message="impl:parseResumeIntoCandidateRequest" />
+      <wsdl:output name="parseResumeIntoCandidateResponse" message="impl:parseResumeIntoCandidateResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getMetadata" parameterOrder="in0 in1">
+      <wsdl:input name="getMetadataRequest" message="impl:getMetadataRequest" />
+      <wsdl:output name="getMetadataResponse" message="impl:getMetadataResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getLookup" parameterOrder="in0 in1">
+      <wsdl:input name="getLookupRequest" message="impl:getLookupRequest" />
+      <wsdl:output name="getLookupResponse" message="impl:getLookupResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="createLink" parameterOrder="sessionId entityType1 entityId1 entityType2 entityId2">
+      <wsdl:input name="createLinkRequest" message="impl:createLinkRequest" />
+      <wsdl:output name="createLinkResponse" message="impl:createLinkResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="removeLink" parameterOrder="sessionId entityType1 entityId1 entityType2 entityId2">
+      <wsdl:input name="removeLinkRequest" message="impl:removeLinkRequest" />
+      <wsdl:output name="removeLinkResponse" message="impl:removeLinkResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="createAttachment" parameterOrder="in0 in1 in2 in3 in4 in5">
+      <wsdl:input name="createAttachmentRequest" message="impl:createAttachmentRequest" />
+      <wsdl:output name="createAttachmentResponse" message="impl:createAttachmentResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="createEntityAttachment" parameterOrder="sessionId entityType entityId description fileName contentType data">
+      <wsdl:input name="createEntityAttachmentRequest" message="impl:createEntityAttachmentRequest" />
+      <wsdl:output name="createEntityAttachmentResponse" message="impl:createEntityAttachmentResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="updateAttachment" parameterOrder="in0 in1 in2 in3 in4 in5">
+      <wsdl:input name="updateAttachmentRequest" message="impl:updateAttachmentRequest" />
+      <wsdl:output name="updateAttachmentResponse" message="impl:updateAttachmentResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteAttachment" parameterOrder="in0 in1">
+      <wsdl:input name="deleteAttachmentRequest" message="impl:deleteAttachmentRequest" />
+      <wsdl:output name="deleteAttachmentResponse" message="impl:deleteAttachmentResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getAttachments" parameterOrder="in0 in1">
+      <wsdl:input name="getAttachmentsRequest" message="impl:getAttachmentsRequest" />
+      <wsdl:output name="getAttachmentsResponse" message="impl:getAttachmentsResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getEntityAttachments" parameterOrder="sessionId entityType entityId">
+      <wsdl:input name="getEntityAttachmentsRequest" message="impl:getEntityAttachmentsRequest" />
+      <wsdl:output name="getEntityAttachmentsResponse" message="impl:getEntityAttachmentsResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getAttachment" parameterOrder="in0 in1">
+      <wsdl:input name="getAttachmentRequest" message="impl:getAttachmentRequest" />
+      <wsdl:output name="getAttachmentResponse" message="impl:getAttachmentResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getAttachmentData" parameterOrder="in0 in1">
+      <wsdl:input name="getAttachmentDataRequest" message="impl:getAttachmentDataRequest" />
+      <wsdl:output name="getAttachmentDataResponse" message="impl:getAttachmentDataResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getCandidateDetailsById" parameterOrder="in0 in1 in2 in3 in4 in5 in6 in7">
+      <wsdl:input name="getCandidateDetailsByIdRequest" message="impl:getCandidateDetailsByIdRequest" />
+      <wsdl:output name="getCandidateDetailsByIdResponse" message="impl:getCandidateDetailsByIdResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="createRequisitionTemplate" parameterOrder="in0 in1">
+      <wsdl:input name="createRequisitionTemplateRequest" message="impl:createRequisitionTemplateRequest" />
+      <wsdl:output name="createRequisitionTemplateResponse" message="impl:createRequisitionTemplateResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="postRequisition" parameterOrder="sessionId requisitionId posterId formVersion">
+      <wsdl:input name="postRequisitionRequest" message="impl:postRequisitionRequest" />
+      <wsdl:output name="postRequisitionResponse" message="impl:postRequisitionResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="unpostRequisition" parameterOrder="sessionId requisitionId posterId">
+      <wsdl:input name="unpostRequisitionRequest" message="impl:unpostRequisitionRequest" />
+      <wsdl:output name="unpostRequisitionResponse" message="impl:unpostRequisitionResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="upsertCandidateToRequisitions" parameterOrder="sessionId candidateId requisitionIds statusId reasonId doRanking">
+      <wsdl:input name="upsertCandidateToRequisitionsRequest" message="impl:upsertCandidateToRequisitionsRequest" />
+      <wsdl:output name="upsertCandidateToRequisitionsResponse" message="impl:upsertCandidateToRequisitionsResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="searchEmployee" parameterOrder="sessionId searchParams">
+      <wsdl:input name="searchEmployeeRequest" message="impl:searchEmployeeRequest" />
+      <wsdl:output name="searchEmployeeResponse" message="impl:searchEmployeeResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteEmployee" parameterOrder="sessionId employeeId">
+      <wsdl:input name="deleteEmployeeRequest" message="impl:deleteEmployeeRequest" />
+      <wsdl:output name="deleteEmployeeResponse" message="impl:deleteEmployeeResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteEmployeeByNumber" parameterOrder="sessionId employeeNumber">
+      <wsdl:input name="deleteEmployeeByNumberRequest" message="impl:deleteEmployeeByNumberRequest" />
+      <wsdl:output name="deleteEmployeeByNumberResponse" message="impl:deleteEmployeeByNumberResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="upsertEmployee" parameterOrder="sessionId employeeNumber bean">
+      <wsdl:input name="upsertEmployeeRequest" message="impl:upsertEmployeeRequest" />
+      <wsdl:output name="upsertEmployeeResponse" message="impl:upsertEmployeeResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getEmployeeByNumber" parameterOrder="sessionId employeeNumber additionalEntities">
+      <wsdl:input name="getEmployeeByNumberRequest" message="impl:getEmployeeByNumberRequest" />
+      <wsdl:output name="getEmployeeByNumberResponse" message="impl:getEmployeeByNumberResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getEmployeeById" parameterOrder="sessionId employeeId additionalEntities">
+      <wsdl:input name="getEmployeeByIdRequest" message="impl:getEmployeeByIdRequest" />
+      <wsdl:output name="getEmployeeByIdResponse" message="impl:getEmployeeByIdResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="createEmployee" parameterOrder="sessionId bean">
+      <wsdl:input name="createEmployeeRequest" message="impl:createEmployeeRequest" />
+      <wsdl:output name="createEmployeeResponse" message="impl:createEmployeeResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="updateEmployee" parameterOrder="sessionId bean">
+      <wsdl:input name="updateEmployeeRequest" message="impl:updateEmployeeRequest" />
+      <wsdl:output name="updateEmployeeResponse" message="impl:updateEmployeeResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getCandidateWorkHistory" parameterOrder="sessionId candidateId">
+      <wsdl:input name="getCandidateWorkHistoryRequest" message="impl:getCandidateWorkHistoryRequest" />
+      <wsdl:output name="getCandidateWorkHistoryResponse" message="impl:getCandidateWorkHistoryResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="getRollingEntities" parameterOrder="sessionId rollingEntityType entityType entityId">
+      <wsdl:input name="getRollingEntitiesRequest" message="impl:getRollingEntitiesRequest" />
+      <wsdl:output name="getRollingEntitiesResponse" message="impl:getRollingEntitiesResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="upsertRollingEntity" parameterOrder="sessionId rollingEntityBean">
+      <wsdl:input name="upsertRollingEntityRequest" message="impl:upsertRollingEntityRequest" />
+      <wsdl:output name="upsertRollingEntityResponse" message="impl:upsertRollingEntityResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+    <wsdl:operation name="deleteRollingEntity" parameterOrder="sessionId rollingEntityId">
+      <wsdl:input name="deleteRollingEntityRequest" message="impl:deleteRollingEntityRequest" />
+      <wsdl:output name="deleteRollingEntityResponse" message="impl:deleteRollingEntityResponse" />
+      <wsdl:fault name="WebServicesException" message="impl:WebServicesException" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="rpcrouterSoapBinding" type="impl:IWebAPI">
+    <wsdlsoap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="createTask">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createTaskRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="createTaskResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createReference">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createReferenceRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="createReferenceResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createEvent">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createEventRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="createEventResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="login">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="loginRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="loginResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="logout">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="logoutRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="logoutResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEnabledServices">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getEnabledServicesRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getEnabledServicesResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLoginToken">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getLoginTokenRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getLoginTokenResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchAccount">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="searchAccountRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="searchAccountResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAccountById">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAccountByIdRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getAccountByIdResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createAccount">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createAccountRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="createAccountResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateAccount">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="updateAccountRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="updateAccountResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteAccount">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteAccountRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="deleteAccountResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getBackgroundChecksByCandidate">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getBackgroundChecksByCandidateRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getBackgroundChecksByCandidateResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getBackgroundCheckById">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getBackgroundCheckByIdRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getBackgroundCheckByIdResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createBackgroundCheck">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createBackgroundCheckRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="createBackgroundCheckResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateBackgroundCheck">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="updateBackgroundCheckRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="updateBackgroundCheckResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteBackgroundCheck">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteBackgroundCheckRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="deleteBackgroundCheckResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEventByEntity">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getEventByEntityRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getEventByEntityResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPublicEvents">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getPublicEventsRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getPublicEventsResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEventById">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getEventByIdRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getEventByIdResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateEvent">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="updateEventRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="updateEventResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteEvent">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteEventRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="deleteEventResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchCandidate">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="searchCandidateRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="searchCandidateResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCandidateById">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getCandidateByIdRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getCandidateByIdResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRequisitions">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getRequisitionsRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getRequisitionsResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getOffers">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getOffersRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getOffersResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createCandidate">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createCandidateRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="createCandidateResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateCandidate">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="updateCandidateRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="updateCandidateResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="setBinaryResume">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="setBinaryResumeRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="setBinaryResumeResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getBinaryResume">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getBinaryResumeRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getBinaryResumeResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="submitCandidate">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="submitCandidateRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="submitCandidateResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeCandidate">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="removeCandidateRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="removeCandidateResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteCandidate">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteCandidateRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="deleteCandidateResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchContact">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="searchContactRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="searchContactResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getContactById">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getContactByIdRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getContactByIdResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createContact">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createContactRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="createContactResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateContact">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="updateContactRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="updateContactResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteContact">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteContactRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="deleteContactResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCandidateHistory">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getCandidateHistoryRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getCandidateHistoryResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRequisitionHistory">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getRequisitionHistoryRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getRequisitionHistoryResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAccountHistory">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAccountHistoryRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getAccountHistoryResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getContactHistory">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getContactHistoryRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getContactHistoryResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUserHistory">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getUserHistoryRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getUserHistoryResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getInterviewsByCandidate">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getInterviewsByCandidateRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getInterviewsByCandidateResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getInterviewById">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getInterviewByIdRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getInterviewByIdResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createInterview">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createInterviewRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="createInterviewResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateInterview">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="updateInterviewRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="updateInterviewResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteInterview">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteInterviewRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="deleteInterviewResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getOfferById">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getOfferByIdRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getOfferByIdResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createOffer">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createOfferRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="createOfferResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateOffer">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="updateOfferRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="updateOfferResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="setBinaryOffer">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="setBinaryOfferRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="setBinaryOfferResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getBinaryOffer">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getBinaryOfferRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getBinaryOfferResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteOffer">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteOfferRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="deleteOfferResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getReferencesByCandidate">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getReferencesByCandidateRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getReferencesByCandidateResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getReferenceById">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getReferenceByIdRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getReferenceByIdResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateReference">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="updateReferenceRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="updateReferenceResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteReference">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteReferenceRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="deleteReferenceResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchRequisition">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="searchRequisitionRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="searchRequisitionResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRequisitionById">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getRequisitionByIdRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getRequisitionByIdResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCandidatesByRequisition">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getCandidatesByRequisitionRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getCandidatesByRequisitionResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAssociatedUsers">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAssociatedUsersRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getAssociatedUsersResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createRequisition">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createRequisitionRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="createRequisitionResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateRequisition">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="updateRequisitionRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="updateRequisitionResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="setAssociatedUser">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="setAssociatedUserRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="setAssociatedUserResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeAssociatedUser">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="removeAssociatedUserRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="removeAssociatedUserResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteRequisition">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteRequisitionRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="deleteRequisitionResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTaskByEntity">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getTaskByEntityRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getTaskByEntityResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTaskByUser">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getTaskByUserRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getTaskByUserResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTaskById">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getTaskByIdRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getTaskByIdResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateTask">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="updateTaskRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="updateTaskResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteTask">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteTaskRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="deleteTaskResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchUser">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="searchUserRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="searchUserResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUserById">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getUserByIdRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getUserByIdResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createUser">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createUserRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="createUserResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createUserWithPermissions">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createUserWithPermissionsRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="createUserWithPermissionsResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateUser">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="updateUserRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="updateUserResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteUser">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteUserRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="deleteUserResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getContactLogsByEntity">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getContactLogsByEntityRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getContactLogsByEntityResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getContactLogById">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getContactLogByIdRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getContactLogByIdResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createContactLog">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createContactLogRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="createContactLogResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createEmailLog">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createEmailLogRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="createEmailLogResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createEmailSentLog">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createEmailSentLogRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="createEmailSentLogResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateContactLog">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="updateContactLogRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="updateContactLogResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteContactLog">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteContactLogRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="deleteContactLogResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSystemProps">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getSystemPropsRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getSystemPropsResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCandReqStatus">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getCandReqStatusRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getCandReqStatusResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="parseResume">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="parseResumeRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="parseResumeResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="parseResumeIntoCandidate">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="parseResumeIntoCandidateRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="parseResumeIntoCandidateResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getMetadata">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getMetadataRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getMetadataResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLookup">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getLookupRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getLookupResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createLink">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createLinkRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="createLinkResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="removeLink">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="removeLinkRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="removeLinkResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createAttachment">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createAttachmentRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="createAttachmentResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createEntityAttachment">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createEntityAttachmentRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="createEntityAttachmentResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateAttachment">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="updateAttachmentRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="updateAttachmentResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteAttachment">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteAttachmentRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="deleteAttachmentResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAttachments">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAttachmentsRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getAttachmentsResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEntityAttachments">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getEntityAttachmentsRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getEntityAttachmentsResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAttachment">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAttachmentRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getAttachmentResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAttachmentData">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getAttachmentDataRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getAttachmentDataResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCandidateDetailsById">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getCandidateDetailsByIdRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getCandidateDetailsByIdResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createRequisitionTemplate">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createRequisitionTemplateRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="createRequisitionTemplateResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="postRequisition">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="postRequisitionRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="postRequisitionResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="unpostRequisition">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="unpostRequisitionRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="unpostRequisitionResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="upsertCandidateToRequisitions">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="upsertCandidateToRequisitionsRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="upsertCandidateToRequisitionsResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchEmployee">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="searchEmployeeRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="searchEmployeeResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteEmployee">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteEmployeeRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="deleteEmployeeResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteEmployeeByNumber">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteEmployeeByNumberRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="deleteEmployeeByNumberResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="upsertEmployee">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="upsertEmployeeRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="upsertEmployeeResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEmployeeByNumber">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getEmployeeByNumberRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getEmployeeByNumberResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getEmployeeById">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getEmployeeByIdRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getEmployeeByIdResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createEmployee">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="createEmployeeRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="createEmployeeResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateEmployee">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="updateEmployeeRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="updateEmployeeResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCandidateWorkHistory">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getCandidateWorkHistoryRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getCandidateWorkHistoryResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRollingEntities">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="getRollingEntitiesRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="getRollingEntitiesResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="upsertRollingEntity">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="upsertRollingEntityRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="upsertRollingEntityResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteRollingEntity">
+      <wsdlsoap:operation soapAction="" />
+      <wsdl:input name="deleteRollingEntityRequest">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:input>
+      <wsdl:output name="deleteRollingEntityResponse">
+        <wsdlsoap:body use="literal" namespace="urn:TBEWebAPI" />
+      </wsdl:output>
+      <wsdl:fault name="WebServicesException">
+        <wsdlsoap:fault use="literal" name="WebServicesException" namespace="" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="IWebAPIService">
+    <wsdl:port name="rpcrouter" binding="impl:rpcrouterSoapBinding">
+      <wsdlsoap:address location="https://tbe.taleo.net/NA1/ats/services/rpcrouter" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
